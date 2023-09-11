@@ -5,14 +5,17 @@ class ArrayIns
     private long[] theArray; // Ссылка на массив
     private int nElems; // Количество элементов
 
-    private int copy;
-    private int comparison;
+    private long copyCount;
+    private long compareCount;
 
     //--------------------------------------------------------------
     public ArrayIns(int max) // Конструктор
     {
         theArray = new long[max]; // Создание массива
         nElems = 0; // Пока нет ни одного элемента
+
+        copyCount = 0;
+        compareCount = 0;
     }
     //--------------------------------------------------------------
     public void insert(long value) // Вставка элемента в массив
@@ -32,8 +35,8 @@ class ArrayIns
     public void quickSort()
     {
         recQuickSort(0, nElems-1);
-        System.out.println("comparison: " + comparison);
-        System.out.println("copy: " + copy);
+        System.out.println("compareCount: " + compareCount);
+        System.out.println("copyCount: " + copyCount);
     }
     //--------------------------------------------------------------
     public void recQuickSort(int left, int right)
@@ -45,6 +48,7 @@ class ArrayIns
         {
             long median = medianOf3(left, right);
             int partition = partitionIt(left, right, median);
+
             recQuickSort(left, partition-1);
             recQuickSort(partition+1, right);
         }
@@ -63,7 +67,7 @@ class ArrayIns
         if( theArray[center] > theArray[right] )
             swap(center, right);
 
-        comparison += 3;
+        compareCount += 3;
 
         swap(center, right-1); // Размещение медианы на правом краю
         return theArray[right-1]; // Метод возвращает медиану
@@ -75,7 +79,7 @@ class ArrayIns
         theArray[dex1] = theArray[dex2]; // B копируется в A
         theArray[dex2] = temp; // temp копируется в B
 
-        copy += 3;
+        copyCount += 3;
     }
     //--------------------------------------------------------------
     public int partitionIt(int left, int right, long pivot)
@@ -85,20 +89,20 @@ class ArrayIns
         while(true)
         {
             while( theArray[++leftPtr] < pivot ) { // Поиск большего элемента
-                comparison++; // (пустое тело цикла)
+                compareCount++; // (пустое тело цикла)
             }
-            comparison++;
+            compareCount++;
 
             while( theArray[--rightPtr] > pivot ) { // Поиск меньшего элемента
-                comparison++; // (пустое тело цикла)
+                compareCount++; // (пустое тело цикла)
             }
-            comparison++;
+            compareCount++;
 
-            comparison++;
             if(leftPtr >= rightPtr) // Если указатели сошлись,
                 break; // разбиение закончено
             else // В противном случае
                 swap(leftPtr, rightPtr); // поменять элементы местами
+            compareCount++;
 
         }
         swap(leftPtr, right-1); // Восстановление опорного элемента
@@ -112,21 +116,21 @@ class ArrayIns
             return; // Сортировка не требуется
         if(size == 2)
         { // 2-сортировка left и right
-            comparison++;
             if( theArray[left] > theArray[right] ) {
                 swap(left, right);
             }
+            compareCount++;
             return;
         }
         else // Размер равен 3
         { // 3-сортировка left, center и right
-            comparison += 3;
             if( theArray[left] > theArray[right-1] )
                 swap(left, right-1); // left, center
             if( theArray[left] > theArray[right] )
                 swap(left, right); // left, right
             if( theArray[right-1] > theArray[right] )
                 swap(right-1, right); // center, right
+            compareCount += 3;
         }
     }
 //--------------------------------------------------------------

@@ -1,6 +1,6 @@
 package Lafore.head_7.QuickSort2App;
 
-class QuickSort2App
+class QuickSortApp2
 {
     public static void main(String[] args)
     {
