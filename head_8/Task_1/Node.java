@@ -1,4 +1,4 @@
-package Lafore.head_8.Postfix;
+package Lafore.head_8.Task_1;
 
 class Node
 {

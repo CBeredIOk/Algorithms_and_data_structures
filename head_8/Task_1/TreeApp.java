@@ -1,8 +1,8 @@
-package Lafore.head_8.Postfix;
+package Lafore.head_8.Task_1;
 
 
-import java.util.Scanner;
 import java.io.IOException;
+import java.util.Scanner;
 
 class TreeApp
 {
@@ -13,7 +13,7 @@ class TreeApp
         System.out.print("Enter postfix equation: ");
         String input = scanner.nextLine();
 
-        Tree postfixTree = Tree.doPostfixTree(input);
+        Tree postfixTree = Tree.doTree(input);
         postfixTree.displayTree();
 
         // Выбор обхода дерева
