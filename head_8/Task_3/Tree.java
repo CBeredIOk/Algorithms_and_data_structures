@@ -1,5 +1,7 @@
-package Lafore.head_8.Task_1;
+package Lafore.head_8.Task_3;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 
 class Tree {
@@ -65,7 +67,7 @@ class Tree {
             int nBlanks = 32;
             boolean isRowEmpty = false;
             System.out.println(
-                    "......................................................");
+                    "....................................................................");
             while (isRowEmpty == false) {
                 Stack localStack = new Stack();
                 isRowEmpty = true;
@@ -74,7 +76,7 @@ class Tree {
                 while (globalStack.isEmpty() == false) {
                     Node temp = (Node) globalStack.pop();
                     if (temp != null) {
-                        System.out.print(temp.iData);
+                        System.out.print(temp.iData + " ");
                         localStack.push(temp.leftChild);
                         localStack.push(temp.rightChild);
                         if (temp.leftChild != null ||
@@ -94,32 +96,37 @@ class Tree {
                     globalStack.push(localStack.pop());
             }
             System.out.println(
-                    "......................................................");
+                    "....................................................................");
         }
 
-    static Tree doTree(String input){
-        Stack<Node> treeStack = new Stack<>();
-        for (char element: input.toCharArray()){
+    static Tree doFullTree(String input){
+
+        Node[] arrayNode = new Node[input.length()];
+        char[] arrayChar = input.toCharArray();
+        for (int i = 0; i < input.length(); i++){
             Node newNode = new Node();
-            newNode.iData = element;
-            treeStack.add(newNode); // Вставка в стэк
-        }
-        Node subtreeRoot = new Node();
-        subtreeRoot.iData = '+';
-        subtreeRoot.leftChild = treeStack.pop();
-        subtreeRoot.rightChild = treeStack.pop();
-        treeStack.add(subtreeRoot);
-
-        while(treeStack.size() != 1){
-            subtreeRoot = new Node();
-            subtreeRoot.iData = '+';
-            subtreeRoot.leftChild = treeStack.pop();
-            subtreeRoot.rightChild = treeStack.pop();
-            treeStack.add(subtreeRoot);
+            newNode.iData = arrayChar[i];
+            arrayNode[i] = newNode;
         }
 
-        Tree tree = new Tree();
-        tree.root = treeStack.peek();
-        return tree;
+        Node newNode;
+        newNode = arrayNode[0];
+        recDoFullTree(arrayNode, 1, newNode);
+
+        Tree fullTree = new Tree();
+        fullTree.root = newNode;
+        return fullTree;
+    }
+
+    static void recDoFullTree(Node[] arrayNode, int i, Node newNode){
+
+        if ((2*i) - 1 >= arrayNode.length) return;
+        else newNode.leftChild = arrayNode[(2*i) - 1];
+
+        if ((2*i + 1) - 1 >= arrayNode.length) return;
+        else newNode.rightChild = arrayNode[(2*i + 1) - 1];
+
+        recDoFullTree(arrayNode, (2*i), newNode.leftChild);
+        recDoFullTree(arrayNode, (2*i + 1), newNode.rightChild);
     }
 }

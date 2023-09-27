@@ -1,6 +1,8 @@
-package Lafore.head_8.Task_1;
+package Lafore.head_8.Task_2;
 
 import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 class Tree {
     private Node root; // first node of tree
@@ -65,7 +67,7 @@ class Tree {
             int nBlanks = 32;
             boolean isRowEmpty = false;
             System.out.println(
-                    "......................................................");
+                    "....................................................................");
             while (isRowEmpty == false) {
                 Stack localStack = new Stack();
                 isRowEmpty = true;
@@ -74,7 +76,7 @@ class Tree {
                 while (globalStack.isEmpty() == false) {
                     Node temp = (Node) globalStack.pop();
                     if (temp != null) {
-                        System.out.print(temp.iData);
+                        System.out.print(temp.iData + " ");
                         localStack.push(temp.leftChild);
                         localStack.push(temp.rightChild);
                         if (temp.leftChild != null ||
@@ -94,32 +96,63 @@ class Tree {
                     globalStack.push(localStack.pop());
             }
             System.out.println(
-                    "......................................................");
+                    "....................................................................");
         }
 
-    static Tree doTree(String input){
+    static Tree doBalancedTree(String input){
         Stack<Node> treeStack = new Stack<>();
+
         for (char element: input.toCharArray()){
             Node newNode = new Node();
             newNode.iData = element;
-            treeStack.add(newNode); // Вставка в стэк
+            treeStack.add(newNode); // Вставка в стэк узлов с введёнными значениями
         }
-        Node subtreeRoot = new Node();
-        subtreeRoot.iData = '+';
-        subtreeRoot.leftChild = treeStack.pop();
-        subtreeRoot.rightChild = treeStack.pop();
-        treeStack.add(subtreeRoot);
 
-        while(treeStack.size() != 1){
+        Tree BalancedTree = new Tree();
+        BalancedTree.root = mergeNodeInTree(treeStack).peek();
+        return BalancedTree;
+    }
+
+    static Stack<Node> mergeNodeInTree(Stack<Node> someStack){
+        Deque<Node> tempDeque;
+        while (someStack.size() != 1) { // В someStack хранятся объединенные узлы
+            if (someStack.size() % 2 == 0){
+                tempDeque = mergeEvenCountNode(someStack);
+            }
+            else {
+                tempDeque = mergeOddCountNode(someStack);
+            }
+            someStack.clear();
+            someStack.addAll(tempDeque);
+            tempDeque.clear();
+        }
+        return someStack;
+    }
+
+    static Deque<Node> mergeEvenCountNode(Stack<Node> someStack){
+        Deque<Node> tempDeque = new ArrayDeque<>();
+        Node subtreeRoot;
+        while (!someStack.isEmpty()) { // Пока не объединим все узлы в стеке
             subtreeRoot = new Node();
             subtreeRoot.iData = '+';
-            subtreeRoot.leftChild = treeStack.pop();
-            subtreeRoot.rightChild = treeStack.pop();
-            treeStack.add(subtreeRoot);
+            subtreeRoot.rightChild = someStack.pop();
+            subtreeRoot.leftChild = someStack.pop();
+            tempDeque.add(subtreeRoot); // В tempDeque временно сохраняются объединенные узлы
         }
+        return tempDeque;
+    }
 
-        Tree tree = new Tree();
-        tree.root = treeStack.peek();
-        return tree;
+    static Deque<Node> mergeOddCountNode(Stack<Node> someStack){
+        Deque<Node> tempDeque = new ArrayDeque<>();
+        Node subtreeRoot;
+        while (someStack.size() != 1) { // Пока не объединим все узлы в стеке кроме одного
+            subtreeRoot = new Node();
+            subtreeRoot.iData = '+';
+            subtreeRoot.rightChild = someStack.pop();
+            subtreeRoot.leftChild = someStack.pop();
+            tempDeque.add(subtreeRoot); // В tempDeque временно сохраняются объединенные узлы
+        }
+        tempDeque.addFirst(someStack.pop()); // Вставляем в начало оставшийся элемент
+        return tempDeque;
     }
 }
