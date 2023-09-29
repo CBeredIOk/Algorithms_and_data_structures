@@ -13,13 +13,13 @@ class TreeApp
         System.out.print("Enter postfix equation: ");
         String input = scanner.nextLine();
 
-        Tree postfixTree = Tree.doFullTree(input);
-        postfixTree.displayTree();
+        Tree fullTree = Tree.doFullTree(input);
+        fullTree.displayTree();
 
         // Выбор обхода дерева
         System.out.print("Choose traverse (1 - Preorder, 2 - Inorder, 3 - Postorder): ");
         int value = scanner.nextInt();
-        postfixTree.traverse(value);
+        fullTree.traverse(value);
 
     }
 }
