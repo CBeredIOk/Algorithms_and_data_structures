@@ -1,4 +1,4 @@
-package Lafore.head_10;
+package Lafore.head_10.Tree234;
 
 import java.io.*;
 import java.util.Arrays;
@@ -13,19 +13,13 @@ class Tree234App
         while(true)
         {
             System.out.print("Enter first letter of ");
-            System.out.print("show, insert, or find: ");
+            System.out.print("Show, sort, insert, find, minimal, traversal or create: ");
             char choice = getChar();
             switch(choice)
             {
                 case 'S':
                     theTree.displayTree();
                     break;
-                case 'a':
-                    theTree.insert(50);
-                    theTree.insert(40);
-                    theTree.insert(60);
-                    theTree.insert(30);
-                    theTree.insert(70);
                 case 's':
                     System.out.print("Enter length array: ");
                     value = getInt();
@@ -56,6 +50,13 @@ class Tree234App
                     System.out.println("Minimum is " + minElem);
                 case 't':
                     theTree.symmetricTraversal();
+                case 'c':
+                    theTree.insert(50);
+                    theTree.insert(40);
+                    theTree.insert(60);
+                    theTree.insert(30);
+                    theTree.insert(70);
+                    break;
                 default:
                     System.out.print("Invalid entry\n");
             }

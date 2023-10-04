@@ -1,4 +1,4 @@
-package Lafore.head_10;
+package Lafore.head_10.Tree234;
 
 class Node
 {
