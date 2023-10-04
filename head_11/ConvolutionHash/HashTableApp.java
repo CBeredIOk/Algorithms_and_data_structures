@@ -1,6 +1,8 @@
-package Lafore.head_11.QuadraticProbing;
+package Lafore.head_11.ConvolutionHash;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 class HashTableApp
 {
@@ -8,50 +10,72 @@ class HashTableApp
     {
         DataItem aDataItem;
         int aKey, size, n, keysPerCell;
+        boolean bool = true;
+
         // Ввод размеров
         System.out.print("Enter size of hash table: ");
-        size = getInt();
+        size = HashTable.getPrime(getInt());
+
         System.out.print("Enter initial number of items: ");
         n = getInt();
         keysPerCell = 10;
+
         // Создание таблицы
         HashTable theHashTable = new HashTable(size);
         for(int j=0; j<n; j++) // Вставка данных
         {
-            aKey = (int)(java.lang.Math.random() *
-                    keysPerCell * size);
+            aKey = (int)(Math.random() * keysPerCell * size);
             aDataItem = new DataItem(aKey);
             theHashTable.insert(aDataItem);
         }
-        while(true) // Взаимодействие с пользователем
+
+        while(bool) // Взаимодействие с пользователем
         {
             System.out.print("Enter first letter of ");
-            System.out.print("test, show, insert, delete, or find: ");
+            System.out.print("test, show, insert, delete, find or exit: ");
             char choice = getChar();
             switch(choice)
             {
                 case 't':
                     aDataItem = new DataItem(19);
                     theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
+
                     aDataItem = new DataItem(38);
+                    theHashTable.displayTable();
                     theHashTable.insert(aDataItem);
+
                     aDataItem = new DataItem(57);
                     theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
+
                     aDataItem = new DataItem(76);
                     theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
+
                     aDataItem = new DataItem(95);
                     theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
+
                     aDataItem = new DataItem(114);
                     theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
                     aDataItem = theHashTable.find(114);
                     System.out.println("\tFound " + aDataItem.getKey());
                     theHashTable.delete(114);
+                    theHashTable.displayTable();
+
                     aDataItem = new DataItem(20);
                     theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
+
                     aDataItem = new DataItem(39);
                     theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
+
                     aDataItem = new DataItem(58);
                     theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
                     break;
                 case 's':
                     theHashTable.displayTable();
@@ -77,6 +101,9 @@ class HashTableApp
                     }
                     else
                         System.out.println("Could not find " + aKey);
+                    break;
+                case 'e':
+                    bool = false;
                     break;
                 default:
                     System.out.print("Invalid entry\n");

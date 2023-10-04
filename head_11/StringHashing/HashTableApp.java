@@ -1,28 +1,22 @@
-package Lafore.head_11.QuadraticProbing;
+package Lafore.head_11.StringHashing;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 class HashTableApp
 {
     public static void main(String[] args) throws IOException
     {
         DataItem aDataItem;
-        int aKey, size, n, keysPerCell;
+        String aWord;
+        int size;
         // Ввод размеров
         System.out.print("Enter size of hash table: ");
         size = getInt();
-        System.out.print("Enter initial number of items: ");
-        n = getInt();
-        keysPerCell = 10;
         // Создание таблицы
         HashTable theHashTable = new HashTable(size);
-        for(int j=0; j<n; j++) // Вставка данных
-        {
-            aKey = (int)(java.lang.Math.random() *
-                    keysPerCell * size);
-            aDataItem = new DataItem(aKey);
-            theHashTable.insert(aDataItem);
-        }
+
         while(true) // Взаимодействие с пользователем
         {
             System.out.print("Enter first letter of ");
@@ -31,52 +25,46 @@ class HashTableApp
             switch(choice)
             {
                 case 't':
-                    aDataItem = new DataItem(19);
+                    aDataItem = new DataItem("cats");
                     theHashTable.insert(aDataItem);
-                    aDataItem = new DataItem(38);
+                    theHashTable.displayTable();
+                    aDataItem = new DataItem("dogs");
                     theHashTable.insert(aDataItem);
-                    aDataItem = new DataItem(57);
+                    theHashTable.displayTable();
+                    aDataItem = new DataItem("cat");
                     theHashTable.insert(aDataItem);
-                    aDataItem = new DataItem(76);
+                    theHashTable.displayTable();
+                    aDataItem = new DataItem("dog");
                     theHashTable.insert(aDataItem);
-                    aDataItem = new DataItem(95);
+                    theHashTable.displayTable();
+                    aDataItem = new DataItem("tree");
                     theHashTable.insert(aDataItem);
-                    aDataItem = new DataItem(114);
-                    theHashTable.insert(aDataItem);
-                    aDataItem = theHashTable.find(114);
-                    System.out.println("\tFound " + aDataItem.getKey());
-                    theHashTable.delete(114);
-                    aDataItem = new DataItem(20);
-                    theHashTable.insert(aDataItem);
-                    aDataItem = new DataItem(39);
-                    theHashTable.insert(aDataItem);
-                    aDataItem = new DataItem(58);
-                    theHashTable.insert(aDataItem);
+                    theHashTable.displayTable();
                     break;
                 case 's':
                     theHashTable.displayTable();
                     break;
                 case 'i':
                     System.out.print("Enter key value to insert: ");
-                    aKey = getInt();
-                    aDataItem = new DataItem(aKey);
+                    aWord = getString();
+                    aDataItem = new DataItem(aWord);
                     theHashTable.insert(aDataItem);
                     break;
                 case 'd':
                     System.out.print("Enter key value to delete: ");
-                    aKey = getInt();
-                    theHashTable.delete(aKey);
+                    aWord = getString();
+                    theHashTable.delete(aWord);
                     break;
                 case 'f':
                     System.out.print("Enter key value to find: ");
-                    aKey = getInt();
-                    aDataItem = theHashTable.find(aKey);
+                    aWord = getString();
+                    aDataItem = theHashTable.find(aWord);
                     if(aDataItem != null)
                     {
-                        System.out.println("Found " + aKey);
+                        System.out.println("Found " + aWord);
                     }
                     else
-                        System.out.println("Could not find " + aKey);
+                        System.out.println("Could not find " + aWord);
                     break;
                 default:
                     System.out.print("Invalid entry\n");
