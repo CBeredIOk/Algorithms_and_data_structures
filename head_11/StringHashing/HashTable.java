@@ -32,9 +32,9 @@ class HashTable
         for(int j=0; j<key.length(); j++) // Слева направо
         {
             int letter = key.charAt(j) - 96; // Получение кода символа
-            hashVal = (hashVal * 27 + letter) % arraySize; // Оператор %
+            hashVal = (hashVal * 27 + letter) % arraySize;
         }
-        return hashVal; // Без оператора %
+        return hashVal;
     }
 
     public void insert(DataItem item) // Вставка элемента данных
