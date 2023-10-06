@@ -1,4 +1,4 @@
-package Lafore.head_12.PriorityQueueOnTree;
+package Lafore.head_12.PyramidalTree;
 
 import java.util.Stack;
 
@@ -51,7 +51,7 @@ class Tree {
     private Node createLastPosition(int id){
         Node lastNode = new Node(); // Создание нового узла
         Node current = root; // Начать с корневого узла
-        int[] path = findPath(numberOfNode);
+        int[] path = findPath(numberOfNode); // Определяем путь для вставки
         for (int i = path.length - 1; i > 0; i--){
             if (path[i] == 1){
                 current = current.rightChild;
@@ -90,7 +90,7 @@ class Tree {
             root.leftChild = null;
         } else {
             root.iData = removeLastPosition();
-            rootInCorrectPosition();
+            nodeInCorrectPosition(root);
         }
         numberOfNode--;
         return top;
@@ -117,9 +117,9 @@ class Tree {
         return lastIData;
     }
 
-    private void rootInCorrectPosition(){
-        int temp = root.iData;
-        Node current = root;
+    private void nodeInCorrectPosition(Node theNode){
+        int temp = theNode.iData;
+        Node current = theNode;
         Node lastCurrent;
         while(true){
             lastCurrent = current;
@@ -135,7 +135,7 @@ class Tree {
             if (current.leftChild == null && current.rightChild == null){
                 if (lastCurrent.rightChild == current){
                     lastCurrent.rightChild.iData = temp;
-                } else{
+                } else if (lastCurrent.leftChild == current){
                     lastCurrent.leftChild.iData = temp;
                 }
                 break;
@@ -146,8 +146,10 @@ class Tree {
     private Node largeChild(Node current){
         if (current.leftChild == null){
             return current.rightChild;
+
         } else if (current.rightChild == null) {
             return current.leftChild;
+
         } else {
             if (current.leftChild.iData > current.rightChild.iData) {
                 return current.leftChild;
@@ -157,13 +159,57 @@ class Tree {
         }
     }
 
+    public void change(int key, int newKey){
+        Node theNode = new Node();
+        theNode.iData = key;
+        theNode = traverse(theNode);
+        if (theNode.iData == -1){
+            System.out.println("No such element in data");
+            return;
+        }
+        theNode.iData = newKey;
+        findCorrectPosition(theNode);
+        nodeInCorrectPosition(theNode);
+    }
+
+    private Node traverse (Node nodeToFind)
+    {
+        return inOrder(root, nodeToFind.iData);
+    }
+
+    private Node inOrder (Node localRoot, int key)
+    {
+        Node zero = new Node();
+        zero.iData = -1;
+        Node node1;
+        Node node2;
+        if (localRoot != null) {
+            if (localRoot.iData == key){
+                return localRoot;
+            }
+            node1 = inOrder(localRoot.leftChild, key);
+            node2 = inOrder(localRoot.rightChild, key);
+        }
+        else {
+            return zero;
+        }
+        if (node1.iData != zero.iData){
+            return node1;
+        } else if (node2.iData != zero.iData){
+            return node2;
+        } else {
+            return zero;
+        }
+    }
+
     public void displayTree ()
     {
         Stack globalStack = new Stack();
         globalStack.push(root);
+        String divider = "-----------------------------------------------------------------";
         int nBlanks = 32;
         boolean isRowEmpty = false;
-        System.out.println("-----------------------------------------------------------------");
+        System.out.println(divider);
         while (isRowEmpty == false) {
             Stack localStack = new Stack();
             isRowEmpty = true;
@@ -191,6 +237,6 @@ class Tree {
             while (localStack.isEmpty() == false)
                 globalStack.push(localStack.pop());
         }
-        System.out.println("-----------------------------------------------------------------");
+        System.out.println(divider);
     }
 }
