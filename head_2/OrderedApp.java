@@ -1,4 +1,4 @@
-package Lafore.head_2.orderedArray;
+package Lafore.head_2;
 import java.util.Random;
 
 class OrderedApp
